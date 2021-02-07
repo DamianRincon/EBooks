@@ -1,0 +1,49 @@
+<?php
+header('Content-type: application/json; charset=utf-8');
+require_once('../repository/user_repo.php');
+
+abstract class UserController {
+    
+    public function init(){
+        $repository = new UserRepository();
+        if (isset($_REQUEST["event"])) {
+            switch ($_REQUEST["event"]) {
+                case 'login':
+                    $data = $repository->login($_REQUEST['email'],$_REQUEST['password']);
+                    if ($data == null) {
+                        $response["message"] = "No se encuentran registros";
+                        $response["success"] = false;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }else{
+                        $response["message"] = "Login success";
+                        $response["success"] = true;
+                        $response["data"] = $data[0];
+                        echo json_encode($response);
+                    }
+                    break;
+                case 'fetchAll':
+                    $data = $repository->fetchAll();
+                    if ($data == null) {
+                        $response["message"] = "No se encuentran registros";
+                        $response["success"] = false;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }else{
+                        $response["message"] = "Login success";
+                        $response["success"] = true;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }
+                    break;
+                default:
+                    echo '{}';
+                    break;
+            }
+        } else {
+            echo '404';
+        }
+    }
+}
+UserController::init();
+?>

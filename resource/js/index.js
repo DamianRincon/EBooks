@@ -26,10 +26,18 @@ $.ajax({
   }
 });
 
+function access() {
+  if (Cookies.get('login')) {
+    window.location= 'pages/dashboard/';
+  } else {
+    window.location= 'pages/login/';
+  }
+}
+
 function getBorrow(book_id) {
   Cookies.set('book_id', book_id);
   if (Cookies.get('login')) {
-    window.location= 'pages/borrow/';  
+    window.location= 'pages/borrow/';
   } else {
     window.location= 'pages/login/';
   }

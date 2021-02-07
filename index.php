@@ -19,7 +19,7 @@
         <a href="#" class="brand-logo"><i class="material-icons">book</i><?php echo app_name ?></a>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="bt hide-on-med-and-down" >
-          <li><a href="pages/login">ACCEDER</a></li>
+          <li><a onClick="access()">ACCEDER</a></li>
         </ul>
         <div class="nav-header de">
           <h1>Los mejores libros</h1>
@@ -36,7 +36,7 @@
       </div>
     </nav>
     <ul class="side-nav" id="nav-mobile">
-      <li><a href="pages/login"><i class="material-icons">person</i>ACCEDER</a></li>
+      <li><a onClick="access()"><i class="material-icons">person</i>ACCEDER</a></li>
     </ul>
 
     <div id="portfolio" class="cx gray">
