@@ -37,16 +37,34 @@ class UserRepository {
         return $results;
     }
 
-    public function insert($category){
-        
+    public function insert($user){
+        try {
+            $query = "INSERT INTO users VALUES (0,?,?,?,?,?)";
+            if (!$stmt = $this->conexion->prepare($query)) {
+                throw Exception($this->ERRORDEL. $this->conexion->error, 1);
+            }
+            $stmt->bind_param("ssssi", $user['name'], $user['last_name'], $user['email'], $user['password'], $user['type']);
+            if ($stmt->execute()) {
+                $id = $this->conexion->insert_id;
+                return $id;
+            }
+        } catch (Exception $e) {
+            echo $e;
+            return null;
+        }    
     }
 
-    public function update($category){
-        
+    public function update($user){
+
     }
 
     public function delete($id){
-        
+        $query = "DELETE FROM users WHERE id  = ?";
+        if (!$stmt = $this->conexion->prepare($query)) {
+            throw Exception($this->ERRORDEL. $this->conexion->error, 1);
+        }
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
     }
 
 

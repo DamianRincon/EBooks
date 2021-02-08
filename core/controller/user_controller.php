@@ -36,6 +36,35 @@ abstract class UserController {
                         echo json_encode($response);
                     }
                     break;
+                case 'insert':
+                    parse_str($_REQUEST['form'], $formData);
+                    $data = $repository->insert($formData);
+                    if ($data == null) {
+                        $response["message"] = "No se encuentran registros";
+                        $response["success"] = false;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }else{
+                        $response["message"] = "Insert success";
+                        $response["success"] = true;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }
+                    break;
+                case 'delete':
+                    $data = $repository->delete($_REQUEST['id']);
+                    if ($data == null) {
+                        $response["message"] = "No se encuentran registros";
+                        $response["success"] = false;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }else{
+                        $response["message"] = "Delete success";
+                        $response["success"] = true;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }
+                    break;
                 default:
                     echo '{}';
                     break;

@@ -10,12 +10,10 @@ class BookRepository {
     }
     
     public function fetchAll() {
-        $query = "SELECT book.*, CONCAT(autor.name, ' ', autor.last_name) as autor, category.name as category, category.id as id_category 
-        from book, book_autor, book_category, autor, category 
-        WHERE book.id = book_category.id_book 
-        and book.id = book_autor.id_autor 
-        and book_autor.id_autor = autor.id 
-        and book_category.id_category = category.id";
+        $query = "SELECT book.*, category.name as category, category.id as id_category 
+            from book, book_category, category 
+            WHERE book.id = book_category.id_book 
+            and book_category.id_category = category.id";
         if (!$stmt = $this->conexion->prepare($query)) {
             throw Exception($this->ERRORDEL. $this->conexion->error);
         }

@@ -14,9 +14,19 @@
 
 
   <div class="fixed-action-btn">
-    <a class="btn-floating btn-large" style="background-color: <?php echo primary_color ?>;">
+    <a href="#modal_books" class="btn-floating btn-large modal-trigger" style="background-color: <?php echo primary_color ?>;">
       <i class="large material-icons">add</i>
     </a>
+  </div>
+
+  <div id="modal_books" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
   </div>
       
 </div>

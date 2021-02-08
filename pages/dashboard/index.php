@@ -14,6 +14,10 @@
 <nav class="blue-grey darken-4 navbar-fixed ">
     
     <a href="#!" style="padding-left:25px" class="brand-logo"><?php echo app_name ?></a>
+
+    <ul id="nav-mobile" class="right">
+        <li><a id="exit">Salir</a></li>
+      </ul>
   
 </nav>
 <ul d="slide-out" class="sidenav sidenav-fixed tabs">
