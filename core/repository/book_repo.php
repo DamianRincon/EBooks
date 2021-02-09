@@ -27,11 +27,9 @@ class BookRepository {
     }
 
     public function fetch($id) {
-        $query = "SELECT book.*, CONCAT(autor.name, ' ', autor.last_name) as autor, category.name as category, category.id as id_category 
-        from book, book_autor, book_category, autor, category 
+        $query = "SELECT book.*, category.name as category, category.id as id_category 
+        from book, book_category, category 
         WHERE book.id = book_category.id_book 
-        and book.id = book_autor.id_autor 
-        and book_autor.id_autor = autor.id 
         and book_category.id_category = category.id
         and book.id=".$id;
         if (!$stmt = $this->conexion->prepare($query)) {
@@ -46,8 +44,34 @@ class BookRepository {
         return $results;
     }
 
-    public function insert($book){
-        
+    public function insert($book, $imagePath){
+        try {
+            $query = "INSERT INTO book VALUES (0,?,?,?,?,?,?,?)";
+            if (!$stmt = $this->conexion->prepare($query)) {
+                throw Exception($this->ERRORDEL. $this->conexion->error, 1);
+            }
+            $stmt->bind_param("sssssss", $book["name"], $book["author"], $book["isbn"], $book["description"], $book["publisher"], $book["language"], $imagePath);
+            $stmt->execute();
+            $id = $this->conexion->insert_id;
+            sleep(2);
+            $result = $this->bookCategoryAdd($id, $book["category"]);
+            return $result;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function bookCategoryAdd($book, $category){
+        try {
+            $query = "INSERT INTO book_category VALUES (?,?)";
+            if (!$stmt = $this->conexion->prepare($query)) {
+                throw Exception($this->ERRORDEL. $this->conexion->error, 1);
+            }
+            $stmt->bind_param("ii", $book, $category);
+            return ($stmt->execute());
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
     public function update($book){
@@ -55,7 +79,12 @@ class BookRepository {
     }
 
     public function delete($id){
-        
+        $query = "DELETE FROM book WHERE id  = ?";
+        if (!$stmt = $this->conexion->prepare($query)) {
+            throw Exception($this->ERRORDEL. $this->conexion->error, 1);
+        }
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
     }
 }
 

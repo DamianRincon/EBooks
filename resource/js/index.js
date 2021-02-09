@@ -21,7 +21,9 @@ $.ajax({
       response.data.forEach(element => {
         $("#books").append(getItem(element));
       });
-      $.getScript("resource/js/materialize.min.opt.js");
+      setTimeout(() => {
+        $.getScript("resource/js/materialize.min.opt.js");
+      }, 1000);
     }
   }
 });
@@ -33,6 +35,10 @@ function access() {
     window.location= 'pages/login/';
   }
 }
+
+$(document).ready(function() {
+  $.getScript("resource/js/materialize.min.opt.js");
+});
 
 function getBorrow(book_id) {
   Cookies.set('book_id', book_id);
@@ -47,7 +53,7 @@ function getItem(book) {
   return '<div class="d hx hf gu gallery-item gallery-expand ce '+book.id_category+'"> \
     <div class="gallery-curve-wrapper"> \
       <a class="gallery-cover gray"> \
-        <img class="responsive-img" src="http://localhost/Ebooks/'+book.image+'" alt="placeholder" crossOrigin="anonymous">\
+        <img class="responsive-img" src="resource/images/books/'+book.image+'" alt="placeholder" crossOrigin="anonymous">\
       </a>\
       <div class="gallery-header">\
         <b><h5>'+book.name+'</h5></b>\
