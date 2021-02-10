@@ -65,6 +65,35 @@ abstract class UserController {
                         echo json_encode($response);
                     }
                     break;
+                case 'register':
+                    parse_str($_REQUEST['form'], $formData);
+                    $data = $repository->register($formData);
+                    if ($data == null) {
+                        $response["message"] = "No se encuentran registros";
+                        $response["success"] = false;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }else{
+                        $response["message"] = "Insert success";
+                        $response["success"] = true;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }
+                    break;
+                case 'send-email':
+                    $data = $repository->sendEmail($_REQUEST["email"]);
+                    if ($data == null) {
+                        $response["message"] = "No se encuentran registros";
+                        $response["success"] = false;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }else{
+                        $response["message"] = "Send email success";
+                        $response["success"] = true;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }
+                    break;
                 default:
                     echo '{}';
                     break;

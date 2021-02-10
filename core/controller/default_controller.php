@@ -20,7 +20,6 @@
                         }else if (strpos($_REQUEST["query"], 'UPDATE') !== false) {
                             return true;
                         }
-                       
                         $result = $stmt->get_result();
                         $results = array();
                         while ($myrow = $result->fetch_assoc()) {

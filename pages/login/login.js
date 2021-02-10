@@ -3,6 +3,7 @@ if (Cookies.get('login')) {
 }
 
 $(document).ready(function () {
+  $('.modal').modal({ dismissible: false });
   $("#login_form").submit(function (event) {
     event.preventDefault();
     $.ajax({
@@ -27,6 +28,35 @@ $(document).ready(function () {
         }
       }
     });
-
   });
+
+  $("#user_form").submit(function (event) {
+    event.preventDefault();
+    $("#loader_users").removeClass('hide');
+    $.ajax({
+      type: "POST",
+      url: "../../core/controller/user_controller.php",
+      data: {
+        event: "register",
+        form: $(this).serialize()
+      },
+      success: function (response) {
+        if (response.success && response.data) {
+          Cookies.set('login', response.data);
+          setTimeout(() => {
+            $("#loader_users").addClass('hide');
+            $('#modal_users').modal('close');
+            if (response.data.type == 1) {
+              window.location = '../dashboard/';
+            } else {
+              
+            }
+          }, 1000);
+        } else {
+          $("#loader_users").addClass('hide');
+        }
+      }
+    });
+  });
+  
 });

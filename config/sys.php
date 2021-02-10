@@ -5,8 +5,8 @@
 
 define('app_name' , 'EBooks');
 define('primary_color' , '#263238');
-define('second_color' , 'EBooks');
-define('accent_color' , 'EBooks');
+define('email_user', 'damianrc.dev@gmail.com');
+define('email_password', 'DamianRC05');
 define('banner_image' , 'resource/images/app/background.webp');
 define('url_base' , 'http://localhost/Ebooks/');
 ?>
