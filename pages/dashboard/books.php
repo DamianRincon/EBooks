@@ -1,5 +1,5 @@
 <div style="margin: 15px">
-    <table id="books_table" class="striped" cellspacing="0" width="100%">
+    <table id="books_table" class="striped">
         <thead>
             <tr>
                 <th>ID</th>

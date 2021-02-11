@@ -41,10 +41,10 @@ abstract class BookController {
                     } else {
                         $srcDir = "../../resource/images/books/";
                         if (!is_dir($srcDir)) {
-                            echo "$destDir is not a directory!\n";
+                            echo "$srcDir is not a directory!\n";
                         }
                         if (!is_writable($srcDir)) {
-                            echo "$destDir is not writable!\n";
+                            echo "$srcDir is not writable!\n";
                         }
                         if (!opendir($srcDir)) {
                             echo "$srcDir could not be opened.\n";
@@ -56,7 +56,7 @@ abstract class BookController {
                         if (!$moved) {
                             echo "$srcDir no moved.\n";
                         }
-                        $path = $_FILES['file']['name'];
+
                         $data = $repository->insert($_REQUEST, $_FILES['file']['name']);
                         if ($data == null) {
                             $response["message"] = "Ocurrio un problema al insertar el libro";
@@ -85,7 +85,49 @@ abstract class BookController {
                         echo json_encode($response);
                     }
                     break;
-                default:
+                case 'fetchBorrow':
+                    $data = $repository->fetchBorrow($_REQUEST['id']);
+                    if ($data == null) {
+                        $response["message"] = "No se encuentran registros";
+                        $response["success"] = false;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }else{
+                        $response["message"] = "Borrow success";
+                        $response["success"] = true;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }
+                    break;
+                case 'return':
+                    $data = $repository->returnBook($_REQUEST['book'], $_REQUEST['id']);
+                    if ($data == null) {
+                        $response["message"] = "No se encuentran registros";
+                        $response["success"] = false;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }else{
+                        $response["message"] = "Return success";
+                        $response["success"] = true;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }
+                    break;
+                case 'borrow':
+                    $data = $repository->borrow($_REQUEST['book'], $_REQUEST['id'], $_REQUEST['time']);
+                    if ($data == null) {
+                        $response["message"] = "No se encuentran registros";
+                        $response["success"] = false;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }else{
+                        $response["message"] = "Return success";
+                        $response["success"] = true;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }
+                    break;
+                    default:
                     echo '{}';
                     break;
             }

@@ -30,7 +30,12 @@ $.ajax({
 
 function access() {
   if (Cookies.get('login')) {
-    window.location= 'pages/dashboard/';
+    let user = JSON.parse(Cookies.get('login'));
+    if (user.type == 1) {
+      window.location = 'pages/dashboard/';
+    } else {
+      window.location = 'pages/panel/';
+    }
   } else {
     window.location= 'pages/login/';
   }
@@ -41,9 +46,29 @@ $(document).ready(function() {
 });
 
 function getBorrow(book_id) {
-  Cookies.set('book_id', book_id);
+  Cookies.set('book', book_id);
   if (Cookies.get('login')) {
-    window.location= 'pages/borrow/';
+    let user = JSON.parse(Cookies.get('login'));
+    let days = prompt("¿Cuantos días desea prestarlo?");
+    if (days) {
+      $.ajax({
+        type: "GET",
+        url: "core/controller/book_controller.php",
+        data: { 
+          event : "borrow",
+          book: book_id,
+          id: user.id,
+          time: days
+        },
+        success: function (response) {
+          if(response.success){
+            alert("Libro solicitado con exito")
+          } else {
+            alert("Ocurrio un erro al intentar prestar el libro")
+          }
+        }
+      });
+    }
   } else {
     window.location= 'pages/login/';
   }

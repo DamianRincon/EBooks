@@ -1,5 +1,10 @@
 if (Cookies.get('login')) {
-  window.location = '../dashboard/';
+  let user = JSON.parse(Cookies.get('login'));
+  if (user.type == 1) {
+    window.location = '../dashboard/';
+  } else {
+    window.location = '../panel/';
+  }
 }
 
 $(document).ready(function () {
@@ -21,6 +26,10 @@ $(document).ready(function () {
           if (response.data.type == 1) {
             window.location = '../dashboard/';
           } else {
+            if (Cookies.get('book')) {
+              window.location = '../../';
+            }
+            window.location = '../panel/';
           }
         } else {
           $("#span").text("Usuario o contraseña incorrectos").show().fadeOut(3000);
@@ -45,11 +54,7 @@ $(document).ready(function () {
           setTimeout(() => {
             $("#loader_users").addClass('hide');
             $('#modal_users').modal('close');
-            if (response.data.type == 1) {
-              window.location = '../dashboard/';
-            } else {
-              
-            }
+            window.location = '../panel/';
           }, 1000);
         } else {
           $("#loader_users").addClass('hide');
