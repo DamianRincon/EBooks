@@ -21,7 +21,6 @@ $(document).ready(function () {
           if (response.data.type == 1) {
             window.location = '../dashboard/';
           } else {
-
           }
         } else {
           $("#span").text("Usuario o contraseña incorrectos").show().fadeOut(3000);

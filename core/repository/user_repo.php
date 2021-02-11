@@ -55,11 +55,38 @@ class UserRepository {
         } catch (Exception $e) {
             echo $e;
             return null;
-        }    
+        }
     }
 
-    public function update($user){
+    public function changePassword($token, $password){
+        try {
+            $query = "SELECT email FROM tokens where token = '$token' order by(id) DESC";
+            if (!$stmt = $this->conexion->prepare($query)) {
+                throw Exception($this->ERRORDEL. $this->conexion->error);
+            }
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $results = array();
+            while ($myrow = $result->fetch_assoc()) {
+                $results[] = $myrow;
+            }
+            $email = $results[0]['email'];
+            $query2 = "UPDATE users SET password = '$password' WHERE email='$email'";
+            if (!$stmt = $this->conexion->prepare($query2)) {
+                throw Exception($this->ERRORDEL. $this->conexion->error);
+            }
+            $result = $stmt->execute();
 
+            $query3 = "DELETE FROM tokens WHERE token = ?";
+            if (!$stmt = $this->conexion->prepare($query3)) {
+                throw Exception($this->ERRORDEL. $this->conexion->error, 1);
+            }
+            $stmt->bind_param("s", $token);
+            $stmt->execute();
+            return $email != null;
+        } catch (\Throwable $th) {
+            return null;
+        }
     }
 
     public function sendEmail($email){
@@ -99,7 +126,6 @@ class UserRepository {
                 $mail->CharSet = 'UTF-8';
                 $mail->IsSMTP();
                 $mail->SMTPDebug = 0;
-                // $mail->SMTPDebug = 2; // debugging: 1 = errors and messages, 2 = messages only
                 $mail->SMTPAuth = true;
                 $mail->SMTPSecure = 'ssl';
                 $mail->Host = "smtp.gmail.com";
@@ -109,7 +135,6 @@ class UserRepository {
                 $mail->Password = email_password;
                 $mail->SetFrom($email);
                 $mail->Subject = "Cambio de contraseña | ".app_name;
-                //$mail->Body = $body;
                 $mail->MsgHTML($body);
                 $mail->AddAddress($email);
                 if(!$mail->Send()) {
@@ -136,7 +161,7 @@ class UserRepository {
                 $id = $this->conexion->insert_id;
                 $user["id"] = $id;
                 return $user;
-            } else return null;
+            } else {return null;}
         } catch (Exception $e) {
             echo $e;
             return null;

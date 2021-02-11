@@ -94,6 +94,20 @@ abstract class UserController {
                         echo json_encode($response);
                     }
                     break;
+                case 'restore-password':
+                    $data = $repository->changePassword($_REQUEST["token"], $_REQUEST["password"]);
+                    if ($data == null) {
+                        $response["message"] = "No se encuentran registros";
+                        $response["success"] = false;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }else{
+                        $response["message"] = "Cahnge password success";
+                        $response["success"] = true;
+                        $response["data"] = $data;
+                        echo json_encode($response);
+                    }
+                    break;
                 default:
                     echo '{}';
                     break;
