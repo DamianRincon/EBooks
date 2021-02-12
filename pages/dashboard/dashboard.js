@@ -202,15 +202,15 @@ $(document).ready(function () {
   });
 
   $('#users_table tbody').on( 'click', '.delete', function () {
-    var user = userTable.row( $(this).parents('tr') ).data();
-    var message = 'Esta seguro de eliminar a ' + user.name + ' ' + user.last_name;
+    let userRow = userTable.row( $(this).parents('tr') ).data();
+    const message = 'Esta seguro de eliminar a ' + userRow.name + ' ' + userRow.last_name;
     if (confirm(message)) {
       $.ajax({
         type: "POST",
         url: "../../core/controller/user_controller.php",
         data: {
           event: "delete",
-          id: user.id
+          id: userRow.id
         },
         success: function (response) {
           if (response.success && response.data) {

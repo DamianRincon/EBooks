@@ -13,7 +13,6 @@
         </thead>
     </table>
 
-
   <div class="fixed-action-btn">
     <a href="#modal_books" class="btn-floating btn-large modal-trigger" style="background-color: <?php echo primary_color ?>;">
       <i class="large material-icons">add</i>
